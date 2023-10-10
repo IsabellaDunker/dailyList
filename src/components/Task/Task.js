@@ -6,7 +6,7 @@ import { faStar } from '@fortawesome/free-regular-svg-icons/faStar'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons/faStar'
 import { useFonts } from 'expo-font';
 
-export default function Task() {
+export default function Task({ task }) {
   const [iconCliked, setIconCliked] = useState(false);
   const toogleIcon = () => {
     setIconCliked(!iconCliked);
@@ -25,7 +25,7 @@ export default function Task() {
         <TouchableOpacity>
           <FontAwesomeIcon size={27} style={styles.iconC} icon={ faCircle } />
         </TouchableOpacity>
-        <Text style={styles.maintext} >Regar as plantas</Text>
+        <Text style={styles.maintext} >{task}</Text>
       </View>
       <TouchableOpacity onPress={toogleIcon}>
         {iconCliked ? (

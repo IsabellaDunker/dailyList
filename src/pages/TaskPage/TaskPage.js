@@ -1,23 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight'
-import { useFonts } from 'expo-font';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';import { useFonts } from 'expo-font';
 import background from '../../../assets/background1.png'
 
 import Header from '../../components/Header/Header';
 import Task from '../../components/Task/Task'
-import TaskDone from '../../components/Task/TaskDone';
+import NewTask from '../../components/Modal/NewTask';
+
+const url = "https://s92jwwbki8.execute-api.us-east-2.amazonaws.com/task/task"
 
 export default function TaskPage() {
-    const [loaded] = useFonts({
-        Montserrat: require('../../../assets/fonts/OpenSans-SemiBold.ttf'),
-      });
-      
-        if (!loaded) {
-        return null;
-      }
+
+  let [res, setRes] = useState();
+  const [loading, setLoading] = useState(true)
+
+  useFonts({
+    Montserrat: require('../../../assets/fonts/OpenSans-SemiBold.ttf'),
+  });
+
+  useEffect(() => {
+    fetch(url)
+    .then(res => res.json())
+    .then((result) => setRes(result))
+    .catch((error) => console.log(error))
+    .finally(() => setLoading(false))
+  }, []);
+
+  console.log(res);
   
   return (
     <View style={styles.container}>
@@ -25,18 +33,16 @@ export default function TaskPage() {
 				<View>
 					<Header/>
 				</View>
-				<View>
-					<Task/>
-					<Task/>
-					<Task/>
-					<Task/>
-				</View>
-				<View style={styles.footer}>
-					<TouchableOpacity style={styles.bt}>
-							<Text style={styles.textbt}>Nova tarefa</Text>
-							<FontAwesomeIcon size={20} style={styles.icon} icon={ faPlus } />
-					</TouchableOpacity>
-				</View>
+				{ loading ? (<Text>Loading...</Text>) : (
+          res.map((post) => (
+            <View>
+              <Task task={post.name}/>
+            </View>
+          ))
+        )}
+        <View style={styles.footer}>
+          <NewTask/>
+        </View>
 			</ImageBackground>
     </View>
   );
