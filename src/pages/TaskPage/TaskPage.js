@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';import { useFonts } from 'expo-font';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import background from '../../../assets/background1.png'
 
 import Header from '../../components/Header/Header';
@@ -12,10 +12,6 @@ export default function TaskPage() {
 
   let [res, setRes] = useState();
   const [loading, setLoading] = useState(true)
-
-  useFonts({
-    Montserrat: require('../../../assets/fonts/OpenSans-SemiBold.ttf'),
-  });
 
   useEffect(() => {
     fetch(url)

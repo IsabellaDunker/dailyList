@@ -5,29 +5,24 @@ import { faCircle } from '@fortawesome/free-regular-svg-icons/faCircle'
 import { faCircle as faCircleSolid } from '@fortawesome/free-solid-svg-icons/faCircle'
 import { faStar } from '@fortawesome/free-regular-svg-icons/faStar'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons/faStar'
-import { useFonts } from 'expo-font';
 
 export default function Task({ task }) {
-
-  useFonts({
-    Montserrat: require('../../../assets/fonts/OpenSans-SemiBold.ttf'),
-  });
-
-  const [iconCliked, setIconCliked] = useState(false);
-  const toogleIcon = () => {
-    setIconCliked(!iconCliked);
+  const [iconClikedS, setIconClikedS] = useState(false);
+  const [iconClikedC, setIconClikedC] = useState(false);
+  const toogleIconStar = () => {
+    setIconClikedS(!iconClikedS);
   }
   const taskDone = () => {
-
+    setIconClikedC(!iconClikedC);
+    //timeout 0.5 segundo
+    //mover task para 'done'
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Pressable onPress={() => {
-          toogleIcon
-        }}>
-        {iconCliked ? (
+        <Pressable onPress={taskDone}>
+        {iconClikedC ? (
           <FontAwesomeIcon size={27} style={styles.iconS} icon={ faCircleSolid } />
         ) : (
           <FontAwesomeIcon size={27} style={styles.iconS} icon={ faCircle } />
@@ -35,8 +30,8 @@ export default function Task({ task }) {
       </Pressable>
         <Text style={styles.maintext} >{task}</Text>
       </View>
-      <Pressable onPress={toogleIcon}>
-        {iconCliked ? (
+      <Pressable onPress={toogleIconStar}>
+        {iconClikedS ? (
           <FontAwesomeIcon size={20} style={styles.iconS} icon={ faStarSolid } />
         ) : (
           <FontAwesomeIcon size={20} style={styles.iconS} icon={ faStar } />

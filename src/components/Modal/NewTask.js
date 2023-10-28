@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { useFonts } from 'expo-font';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
 
 const url = "https://s92jwwbki8.execute-api.us-east-2.amazonaws.com/task/task"
 
 export default function NewTask(){
-	useFonts({
-    Montserrat: require('../../../assets/fonts/OpenSans-SemiBold.ttf'),
-  });
-
   const [modalVisible, setModalVisible] = useState(false);
 	const [task, setTask] = React.useState('');
 

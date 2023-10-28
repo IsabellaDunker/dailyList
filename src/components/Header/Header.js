@@ -3,20 +3,10 @@ import { View, StyleSheet, Text, StatusBar, Pressable} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons/faEllipsis'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft'
-import { useFonts } from 'expo-font';
 
 const StatusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 22 : 64;
 
 export default function Header() {
-
-    const [loaded] = useFonts({
-        Montserrat: require('../../../assets/fonts/OpenSans-SemiBold.ttf'),
-      });
-      
-        if (!loaded) {
-        return null;
-      }
-  
     return (
       <View style={styles.container}>
 				<View style={styles.iconsView}>
