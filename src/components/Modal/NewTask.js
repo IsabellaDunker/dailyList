@@ -4,17 +4,37 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { useFonts } from 'expo-font';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
 
-export default function NewTask(){
-	
-  const [modalVisible, setModalVisible] = useState(false);
-	const [task, onChangeTask] = React.useState('');
+const url = "https://s92jwwbki8.execute-api.us-east-2.amazonaws.com/task/task"
 
-	const [loaded] = useFonts({
+export default function NewTask(){
+	useFonts({
     Montserrat: require('../../../assets/fonts/OpenSans-SemiBold.ttf'),
   });
-    
-    if (!loaded) {
-    return null;
+
+  const [modalVisible, setModalVisible] = useState(false);
+	const [task, setTask] = React.useState('');
+
+  const handleChangeTask = (newTask) => {
+    setTask(newTask);
+  };
+
+  const handleSubmitResultado = () => {
+    try {
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+        body: JSON.stringify(task),
+      }).then((response) => response.text())
+        .then((json) => console.log(json));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
+    setTask('')
+    //location.reload();
   }
 
   return (
@@ -30,13 +50,17 @@ export default function NewTask(){
           <View style={styles.modalView}>
 						<TextInput
 						style={styles.input}
-						onChangeText={onChangeTask}
+						onChangeText={handleChangeTask}
 						value={task}
 						placeholder="Adicionar tarefa"
 						placeholderTextColor={'white'}/>
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
+              onPress={
+                () => {
+                  setModalVisible(!modalVisible),
+                  handleSubmitResultado()
+                }}>
               <Text style={styles.textStyle}>Concluído</Text>
             </Pressable>
           </View>
