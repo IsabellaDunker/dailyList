@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import background from '../../../assets/background1.png'
+import { index } from '../../database'
 
 import Header from '../../components/Header/Header';
 import Task from '../../components/Task/Task'
 import NewTask from '../../components/Modal/NewTask';
 
-const url = "https://s92jwwbki8.execute-api.us-east-2.amazonaws.com/task/task"
-
 export default function TaskPage() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  let [res, setRes] = useState();
-  const [loading, setLoading] = useState(true)
+  useEffect(() =>{
+    const fetchData = async () => {
+      try {
+        const data = await index('task');
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error)
+        setLoading(false);
+      }
+    };
 
-  useEffect(() => {
-    fetch(url)
-    .then(res => res.json())
-    .then((result) => setRes(result))
-    .catch((error) => console.log(error))
-    .finally(() => setLoading(false))
-  }, []);
-
-  console.log(res);
+    fetchData();
+  }, [])
   
   return (
     <View style={styles.container}>
@@ -30,9 +33,9 @@ export default function TaskPage() {
 					<Header/>
 				</View>
 				{ loading ? (<Text>Loading...</Text>) : (
-          res.map((post) => (
-            <View>
-              <Task task={post.name}/>
+          data.map((task) => (
+            <View key={task.id}>
+              <Task task={task.name}/>
             </View>
           ))
         )}
