@@ -6,10 +6,7 @@ import Menu from '../Modal/Menu'
 
 const StatusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 22 : 64;
 
-export default function Header() {
-  // useFonts({
-  //   Montserrat: require('../../../assets/fonts/OpenSans-SemiBold.ttf'),
-  // });
+export default function Header({ onSelectImage }) {
     return (
       <View style={styles.container}>
 				<View style={styles.iconsView}>
@@ -17,15 +14,15 @@ export default function Header() {
 						<FontAwesomeIcon size={20} style={styles.icon} icon={ faChevronLeft } />
 					</Pressable>
           <View style={styles.iconRight}>
-            <Menu/>
+            <Menu onSelectImage={onSelectImage} />
           </View>
 				</View>
         <Text style={styles.mainText} >Tarefas</Text>
-        <Text style={styles.date} >17 de setembro, 2023</Text>
+        <Text style={styles.date} >21 de outubro, 2023</Text>
       </View>
     );
   }
-  
+
   const styles = StyleSheet.create({
     container: {
       paddingTop: StatusBarHeight,
