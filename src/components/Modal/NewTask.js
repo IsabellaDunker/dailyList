@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const url = "https://s92jwwbki8.execute-api.us-east-2.amazonaws.com/task/task"
 
@@ -33,43 +32,22 @@ export default function NewTask(){
   }
 
   return (
-    <View>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={{ flex: 1 }}
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      scrollEnabled={true}
+    >
+      <View style={styles.centeredView}>
+          <View style={styles.inputView}>
 						<TextInput
 						style={styles.input}
 						onChangeText={handleChangeTask}
 						value={task}
-						placeholder="Adicionar tarefa"
-						placeholderTextColor={'white'}/>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={
-                () => {
-                  setModalVisible(!modalVisible),
-                  handleSubmitResultado()
-                }}>
-              <Text style={styles.textStyle}>Concluído</Text>
-            </Pressable>
+						placeholder="Nova tarefa  +"
+						placeholderTextColor={'#6A32E1'}/>
           </View>
         </View>
-      </Modal>
-			<View>
-				<Pressable 
-				style={styles.buttonOpen}
-				onPress={() => setModalVisible(true)}>
-					<Text style={styles.textbt}>Nova tarefa</Text>
-					<FontAwesomeIcon size={20} style={styles.icon} icon={ faPlus } />
-				</Pressable>
-			</View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -78,36 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: '#363636',
-    borderRadius: 20,
-    padding: 40,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-	input: {
-    height: 40,
-		width: 200,
-    margin: 12,
-		borderRadius: 6,
-    padding: 15,
-		borderBottomColor: '#999999',
-    borderBottomWidth: 0.4,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
+  inputView: {
     height: 62,
     backgroundColor: '#363636',
     marginStart: 45,
@@ -116,15 +65,16 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
-  buttonClose: {
-    backgroundColor: '#6A32E1',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+	input: {
+    height: 60,
+		width: 200,
+		borderRadius: 6,
+    padding: 15,
+    fontFamily: 'Montserrat',
+		fontSize: 24,
+    color:'white'
   },
   modalText: {
     marginBottom: 15,

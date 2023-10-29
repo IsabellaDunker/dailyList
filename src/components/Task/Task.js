@@ -23,18 +23,18 @@ export default function Task({ task }) {
       <View style={styles.row}>
         <Pressable onPress={taskDone}>
         {iconClikedC ? (
-          <FontAwesomeIcon size={27} style={styles.iconS} icon={ faCircleSolid } />
+          <FontAwesomeIcon size={27} style={styles.iconC} icon={ faCircleSolid } />
         ) : (
-          <FontAwesomeIcon size={27} style={styles.iconS} icon={ faCircle } />
+          <FontAwesomeIcon size={27} style={styles.iconC} icon={ faCircle } />
         )}
       </Pressable>
         <Text style={styles.maintext} >{task}</Text>
       </View>
       <Pressable onPress={toogleIconStar}>
         {iconClikedS ? (
-          <FontAwesomeIcon size={20} style={styles.iconS} icon={ faStarSolid } />
+          <FontAwesomeIcon size={23} style={styles.iconS} icon={ faStarSolid } />
         ) : (
-          <FontAwesomeIcon size={20} style={styles.iconS} icon={ faStar } />
+          <FontAwesomeIcon size={23} style={styles.iconS} icon={ faStar } />
         )}
       </Pressable>
     </View>
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     marginStart: 10,
     marginEnd: 10,
     height: 62,
+    borderRadius: 10,
   },
   row: {
     flexDirection: 'row',
@@ -63,8 +64,8 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   iconS: {
-    color: '#fff',
-    fontSize: 32,
+    color: '#6A32E1',
+    fontSize: 34,
   },
   maintext: {
     color: '#fff',
