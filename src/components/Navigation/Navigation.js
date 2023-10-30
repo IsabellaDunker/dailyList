@@ -1,9 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import UserName from '../../components/Header/Username';
-import ListPage from '../ListPage/ListPage';
-import TaskPage from '../TaskPage/TaskPage';
+import UserName from '../Header/Username';
+import ListPage from '../../pages/ListPage/ListPage';
+import TaskPage from '../../pages/TaskPage/TaskPage';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 // TodayPage from '../TodayPage/TodayPage';
 // CompletedPage from '../CompletedPage/CompletedPage';
