@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
+import React from 'react';
 import { useFonts } from 'expo-font';
-import TaskPage from './src/pages/TaskPage/TaskPage'
-import EditTask from './src/components/Task/EditTask';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import Navigation from './src/components/Navigation/Navigation'
 //import './src/database'
-
-const Stack = createStackNavigator();
 
 export default function App() {
   useFonts({
@@ -15,19 +9,6 @@ export default function App() {
   });
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="TaskPage">
-      <Stack.Screen
-          name="TaskPage"
-          component={TaskPage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="EditTask"
-          component={EditTask}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Navigation/>
   );
 }
