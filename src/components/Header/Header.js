@@ -4,13 +4,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft'
 import Menu from '../Modal/Menu'
 
+import { useNavigation } from '@react-navigation/native';
+
 const StatusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 22 : 64;
 
 export default function Header({ onSelectImage }) {
+  const navigation = useNavigation();
+  const date = new Date();
+  const formattedDate = `${date.getDate()} de ${date.getMonth() + 1}, ${date.getFullYear()}`;
+
     return (
       <View style={styles.container}>
 				<View style={styles.iconsView}>
-					<Pressable style={styles.iconLeft}>
+					<Pressable onPress={() => navigation.navigate('ListPage')} style={styles.iconLeft}>
 						<FontAwesomeIcon size={20} style={styles.icon} icon={ faChevronLeft } />
 					</Pressable>
           <View style={styles.iconRight}>
@@ -18,7 +24,7 @@ export default function Header({ onSelectImage }) {
           </View>
 				</View>
         <Text style={styles.mainText} >Tarefas</Text>
-        <Text style={styles.date} >21 de outubro, 2023</Text>
+        <Text style={styles.date} >{formattedDate}</Text>
       </View>
     );
   }
