@@ -41,7 +41,7 @@ function Navigation() {
                 color="#fff"
                 style={styles.icon}
                 onPress={() => {
-                  // Adicione o manipulador onPress do seu ícone aqui
+
                 }}
               />
             ),
@@ -52,8 +52,8 @@ function Navigation() {
           name="Tarefas"
           component={TaskPage}
           options={{
-            headerTransparent: true, // Deixa o cabeçalho transparente
-            headerTintColor: '#6A32E1', // Altera a cor dos botões do cabeçalho para branco
+            headerTransparent: true, 
+            headerTintColor: '#6A32E1', 
           }}
         />
       </Stack.Navigator>

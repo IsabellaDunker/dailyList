@@ -3,7 +3,6 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { index } from '../../database'
-import Header from '../../components/Header/Header';
 import Task from '../../components/Task/Task'
 import NewList from '../../components/Modal/NewList';
 

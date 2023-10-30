@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import Menu from '../Modal/Menu'; // Certifique-se de importar o componente Menu corretamente
+import Menu from '../Modal/Menu'; 
 
 const StatusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 22 : 64;
 

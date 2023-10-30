@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons/faEllipsis'
