@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
-import background from '../../../assets/background1.png'
+import background1 from '../../../assets/background1.png'
 import { index } from '../../database'
 
 import Header from '../../components/Header/Header';
@@ -10,6 +10,7 @@ import NewTask from '../../components/Modal/NewTask';
 export default function TaskPage() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [backgroundImage, setBackgroundImage] = useState(background1);
 
   useEffect(() =>{
     const fetchData = async () => {
@@ -25,14 +26,18 @@ export default function TaskPage() {
 
     fetchData();
   }, [])
+
+  const selectImage = (imageUri) => {
+    setBackgroundImage(imageUri);
+  };
   
   return (
     <View style={styles.container}>
-      <ImageBackground source={background} resizeMode="cover" style={styles.image}>
+      <ImageBackground source={backgroundImage} resizeMode="cover" style={styles.image}>
 				<View>
-					<Header/>
+					<Header onSelectImage={selectImage} />
 				</View>
-				{ loading ? (<Text>Loading...</Text>) : (
+				{ loading ? (<Text></Text>) : (
           data.map((task) => (
             <View key={task.id}>
               <Task task={task.name}/>

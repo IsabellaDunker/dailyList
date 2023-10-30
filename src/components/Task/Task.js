@@ -6,16 +6,23 @@ import { faCircle as faCircleSolid } from '@fortawesome/free-solid-svg-icons/faC
 import { faStar } from '@fortawesome/free-regular-svg-icons/faStar'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons/faStar'
 
+import { useNavigation } from '@react-navigation/native';
+
 export default function Task({ task }) {
+  const navigation = useNavigation();
   const [iconClikedS, setIconClikedS] = useState(false);
   const [iconClikedC, setIconClikedC] = useState(false);
-  const toogleIconStar = () => {
+  const taskFavorite = () => {
     setIconClikedS(!iconClikedS);
+    // mover task para 'favorites'
+    // update no db type = 'favorites'
   }
   const taskDone = () => {
     setIconClikedC(!iconClikedC);
     //timeout 0.5 segundo
+    // checar se tem 'repeat'
     //mover task para 'done'
+    // update no db type = 'done'
   }
 
   return (
@@ -27,10 +34,12 @@ export default function Task({ task }) {
         ) : (
           <FontAwesomeIcon size={27} style={styles.iconC} icon={ faCircle } />
         )}
-      </Pressable>
-        <Text style={styles.maintext} >{task}</Text>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('EditTask', { task })}>
+          <Text style={styles.maintext}>{task}</Text>
+        </Pressable>
       </View>
-      <Pressable onPress={toogleIconStar}>
+      <Pressable onPress={taskFavorite}>
         {iconClikedS ? (
           <FontAwesomeIcon size={23} style={styles.iconS} icon={ faStarSolid } />
         ) : (
