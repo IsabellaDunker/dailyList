@@ -11,7 +11,7 @@ const StatusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 22 :
 export default function Header({ onSelectImage }) {
   const navigation = useNavigation();
   const date = new Date();
-  const formattedDate = `${date.getDate()} de ${date.getMonth() + 1}, ${date.getFullYear()}`;
+  const formattedDate = formatDate(date);
 
     return (
       <View style={styles.container}>
@@ -27,6 +27,24 @@ export default function Header({ onSelectImage }) {
         <Text style={styles.date} >{formattedDate}</Text>
       </View>
     );
+  }
+
+  function formatDate(date) {
+    const semana = [
+      'Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira',
+      'Quinta-feira', 'Sexta-feira', 'Sábado'
+    ]
+    const meses = [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril',
+      'Maio', 'Junho', 'Julho', 'Agosto',
+      'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
+    
+    const diaSemana = semana[date.getDay()];
+    const dia = date.getDate();
+    const mes = meses[date.getMonth()];
+    
+    return `${diaSemana}, ${dia} de ${mes}`;
   }
 
   const styles = StyleSheet.create({
