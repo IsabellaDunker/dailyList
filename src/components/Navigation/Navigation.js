@@ -49,11 +49,12 @@ function Navigation() {
             headerStyle: styles.header,
           }}
         />
+
         <Stack.Screen
           name="Tarefas"
           component={TaskPage}
           options={{
-            headerShown: false // Altera a cor dos botões do cabeçalho para branco
+            headerShown: false
           }}
         />
         <Stack.Screen

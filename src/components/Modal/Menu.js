@@ -102,7 +102,7 @@ export default function Menu({ onSelectImage }){
               <Pressable onPress={() => onSelectImage(background2)}><Image style={styles.image} source={background2} /></Pressable>
               <Pressable onPress={() => onSelectImage(background3)}><Image style={styles.image} source={background3} /></Pressable>
               <Pressable onPress={() => onSelectImage(background4)}><Image style={styles.image} source={background4} /></Pressable>
-              <Pressable style={styles.imagePlus}><Text>+</Text></Pressable>
+              <Pressable><Text style={styles.imagePlus}>+</Text></Pressable>
             </View>
           </View>
         </View>
@@ -142,10 +142,12 @@ export default function Menu({ onSelectImage }){
             </View>
             {/* <Pressable>Cor</Pressable> */}
             <View style={styles.imageButtons}>
-              <Pressable style={styles.colors} onPress={() => {}}></Pressable>
-              <Pressable style={styles.colors} onPress={() => {}}></Pressable>
-              <Pressable style={styles.colors} onPress={() => {}}></Pressable>
-              <Pressable style={styles.colors} onPress={() => {}}></Pressable>
+              <Pressable style={[styles.colors, { backgroundColor: '#6A32E1' }]} onPress={() => {}}></Pressable>
+              <Pressable style={[styles.colors, { backgroundColor: '#C532E9' }]} onPress={() => {}}></Pressable>
+              <Pressable style={[styles.colors, { backgroundColor: '#E9327F' }]} onPress={() => {}}></Pressable>
+              <Pressable style={[styles.colors, { backgroundColor: '#E44D56' }]} onPress={() => {}}></Pressable>
+              <Pressable style={[styles.colors, { backgroundColor: '#04B937' }]} onPress={() => {}}></Pressable>
+              <Pressable style={[styles.colors, { backgroundColor: '#D3CFCF' }]} onPress={() => {}}></Pressable>
             </View>
           </View>
         </View>
@@ -211,8 +213,11 @@ const styles = StyleSheet.create({
   imageButtons: {
     flexDirection: 'row'
   },
+  imagePlus: {
+    fontSize: 20,
+    color: '#fff',
+  },
   colors: {
-    backgroundColor: '#6A32E1',
     borderRadius: 50,
     width: 50,
     height: 50,
