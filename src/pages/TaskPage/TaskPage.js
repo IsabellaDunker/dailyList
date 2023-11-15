@@ -7,25 +7,9 @@ import Header from '../../components/Header/Header';
 import Task from '../../components/Task/Task'
 import NewTask from '../../components/Modal/NewTask';
 
-export default function TaskPage() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+export default function TaskPage({ route }) {
+  const { title, data, loading } = route.params;
   const [backgroundImage, setBackgroundImage] = useState(background1);
-
-  useEffect(() =>{
-    const fetchData = async () => {
-      try {
-        const data = await index('task');
-        setData(data);
-        setLoading(false);
-      } catch (error) {
-        console.log(error)
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [])
 
   const selectImage = (imageUri) => {
     setBackgroundImage(imageUri);
@@ -35,12 +19,12 @@ export default function TaskPage() {
     <View style={styles.container}>
       <ImageBackground source={backgroundImage} resizeMode="cover" style={styles.image}>
 				<View>
-					<Header onSelectImage={selectImage} />
+					<Header title={title} onSelectImage={selectImage} />
 				</View>
 				{ loading ? (<Text></Text>) : (
           data.map((task) => (
             <View key={task.id}>
-              <Task task={task.name}/>
+              <Task id={task.id} name={task.name} date={task.date}/>
             </View>
           ))
         )}

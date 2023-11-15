@@ -8,8 +8,10 @@ import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons/faStar'
 
 import { useNavigation } from '@react-navigation/native';
 
-export default function Task({ task }) {
+export default function Task({ id, name, date }) {
   const navigation = useNavigation();
+  const newDate = new Date(date);
+  const formattedDate = formatDate(newDate);
   const [iconClikedS, setIconClikedS] = useState(false);
   const [iconClikedC, setIconClikedC] = useState(false);
   const taskFavorite = () => {
@@ -35,9 +37,12 @@ export default function Task({ task }) {
           <FontAwesomeIcon size={27} style={styles.iconC} icon={ faCircle } />
         )}
         </Pressable>
-        <Pressable onPress={() => navigation.navigate('EditTask', { task })}>
-          <Text style={styles.maintext}>{task}</Text>
-        </Pressable>
+        <View style={styles.taskText}>
+          <Pressable onPress={() => navigation.navigate('EditTask', { name })}>
+            <Text style={styles.maintext}>{name}</Text>
+          </Pressable>
+          <Text style={styles.bottomDate}>{formattedDate}</Text>
+        </View>
       </View>
       <Pressable onPress={taskFavorite}>
         {iconClikedS ? (
@@ -50,11 +55,28 @@ export default function Task({ task }) {
   );
 }
 
+function formatDate(date) {
+  const semana = [
+    'Domingo', 'Segunda', 'Terça', 'Quarta',
+    'Quinta', 'Sexta', 'Sábado'
+  ]
+  const meses = [
+    'Jan.', 'Fev.', 'Março', 'Abril',
+    'Maio', 'Junho', 'Julho', 'Agosto',
+    'Set.', 'Out.', 'Nov.', 'Dez.'
+  ];
+  
+  const diaSemana = semana[date.getDay()];
+  const dia = date.getDate();
+  const mes = meses[date.getMonth()];
+  
+  return `${diaSemana}, ${dia} de ${mes}`;
+}
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#363636',
     alignItems: 'center',
-    justifyContent: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingStart: 18,
@@ -70,16 +92,24 @@ const styles = StyleSheet.create({
   },
   iconC: {
     color: '#fff',
-    fontSize: 32,
+    marginTop: 10,
   },
   iconS: {
     color: '#6A32E1',
-    fontSize: 34,
   },
   maintext: {
     color: '#fff',
     marginLeft: 22,
     fontSize: 20,
     fontFamily: 'Montserrat'
+  },
+  bottomDate: {
+    fontFamily: 'Montserrat',
+    color: '#D3CFCF',
+    marginLeft: 22,
+    fontSize: 13,
+  },
+  taskText: {
+    flexDirection: 'column',
   }
 });

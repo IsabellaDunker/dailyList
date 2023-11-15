@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const StatusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 22 : 64;
 
-export default function Header({ onSelectImage }) {
+export default function Header({ title, onSelectImage }) {
   const navigation = useNavigation();
   const date = new Date();
   const formattedDate = formatDate(date);
@@ -23,7 +23,7 @@ export default function Header({ onSelectImage }) {
             <Menu onSelectImage={onSelectImage} />
           </View>
 				</View>
-        <Text style={styles.mainText} >Tarefas</Text>
+        <Text style={styles.mainText} >{title}</Text>
         <Text style={styles.date} >{formattedDate}</Text>
       </View>
     );
