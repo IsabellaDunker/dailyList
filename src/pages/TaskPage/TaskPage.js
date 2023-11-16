@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import background1 from '../../../assets/background1.png'
-import { index } from '../../database'
 
 import Header from '../../components/Header/Header';
 import Task from '../../components/Task/Task'

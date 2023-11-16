@@ -5,7 +5,6 @@ import { index } from '../../database'
 import NewList from '../../components/Modal/NewList';
 
 export default function ListPage({ navigation }) {
-  const title = "teste";
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   let todayData, importantData, doneData;
@@ -47,25 +46,25 @@ export default function ListPage({ navigation }) {
         importantData = data.filter(item => item.list_id === 3),
         doneData = data.filter(item => item.list_id === 4),
       <View>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title, data:todayData, loading })} style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Hoje", data:todayData, loading })} style={styles.card}>
         <View style={styles.cardContent}>
           <Icon name="calendar" size={30} color="#fff" />
           <Text style={styles.cardText}>Para hoje</Text>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title, data, loading })} style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Tarefas", data, loading })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="list-ul" size={30} color="#fff" />
             <Text style={styles.cardText}>Tarefas</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title, data:importantData, loading })} style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Importantes", data:importantData, loading })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="star" size={30} color="#fff" />
             <Text style={styles.cardText}>Importantes</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title, data:doneData, loading })} style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Concluídas", data:doneData, loading })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="check-square" size={30} color="#fff" />
             <Text style={styles.cardText}>Concluídas</Text>

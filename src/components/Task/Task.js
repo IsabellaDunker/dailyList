@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCircle } from '@fortawesome/free-regular-svg-icons/faCircle'
@@ -6,6 +6,7 @@ import { faCircle as faCircleSolid } from '@fortawesome/free-solid-svg-icons/faC
 import { faStar } from '@fortawesome/free-regular-svg-icons/faStar'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons/faStar'
 
+import { putEvent } from '../../database'
 import { useNavigation } from '@react-navigation/native';
 
 export default function Task({ id, name, date }) {
@@ -14,18 +15,39 @@ export default function Task({ id, name, date }) {
   const formattedDate = formatDate(newDate);
   const [iconClikedS, setIconClikedS] = useState(false);
   const [iconClikedC, setIconClikedC] = useState(false);
+  const iconClickedRef = useRef(false); 
+  const [taskStyle, setTaskStyle] = useState(false);
+
+  const [loading, setLoading] = useState(true);
+
   const taskFavorite = () => {
     setIconClikedS(!iconClikedS);
     // mover task para 'favorites'
     // update no db type = 'favorites'
   }
+
+  const updateData = async () => {
+    try {
+      const responseData = await putEvent('task', JSON.stringify({ id: id, list_id: 4 }));
+      console.log('Resposta PUT:', responseData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Erro ao realizar PUT:', error);
+      setLoading(false);
+    }
+  };
   const taskDone = () => {
+    setTaskStyle(!taskStyle);
     setIconClikedC(!iconClikedC);
-    //timeout 0.5 segundo
-    // checar se tem 'repeat'
-    //mover task para 'done'
-    // update no db type = 'done'
+    iconClickedRef.current = true;
   }
+
+  useEffect(() => {
+    if (iconClickedRef.current) {
+      updateData();
+      iconClickedRef.current = false; // Reseta para o próximo clique
+    }
+  }, [iconClikedC]); 
 
   return (
     <View style={styles.container}>
@@ -39,7 +61,7 @@ export default function Task({ id, name, date }) {
         </Pressable>
         <View style={styles.taskText}>
           <Pressable onPress={() => navigation.navigate('EditTask', { name })}>
-            <Text style={styles.maintext}>{name}</Text>
+            <Text style={taskStyle ? styles.maintextDone : styles.maintext}>{name}</Text>
           </Pressable>
           <Text style={styles.bottomDate}>{formattedDate}</Text>
         </View>
@@ -101,7 +123,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginLeft: 22,
     fontSize: 20,
-    fontFamily: 'Montserrat'
+    fontFamily: 'Montserrat',
+  },
+  maintextDone: {
+    color: '#DEDEDE',
+    marginLeft: 22,
+    fontSize: 20,
+    fontFamily: 'Montserrat',
+    textDecorationLine: 'line-through',
   },
   bottomDate: {
     fontFamily: 'Montserrat',
