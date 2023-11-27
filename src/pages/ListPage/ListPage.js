@@ -5,10 +5,9 @@ import { index } from '../../database'
 import NewList from '../../components/Modal/NewList';
 
 export default function ListPage({ navigation }) {
-  const title = "teste";
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  let todayData, importantData, doneData;
+  let todayData, importantData, doneData, allData;
 
   useEffect(() =>{
     const fetchData = async () => {
@@ -43,29 +42,30 @@ export default function ListPage({ navigation }) {
   return (
     <View style={styles.container}>
       { loading ? ( <View/> ) : (
+        allData = data.filter(item => item.list_id !== 4),
         todayData = data.filter(item => item.list_id === 1),
         importantData = data.filter(item => item.list_id === 3),
         doneData = data.filter(item => item.list_id === 4),
-      <View>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title, data:todayData, loading })} style={styles.card}>
+      <View  style={styles.cardContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Hoje", data:todayData, loading })} style={styles.card}>
         <View style={styles.cardContent}>
           <Icon name="calendar" size={30} color="#fff" />
           <Text style={styles.cardText}>Para hoje</Text>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title, data, loading })} style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Tarefas", data:allData, loading })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="list-ul" size={30} color="#fff" />
             <Text style={styles.cardText}>Tarefas</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title, data:importantData, loading })} style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Importantes", data:importantData, loading })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="star" size={30} color="#fff" />
             <Text style={styles.cardText}>Importantes</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title, data:doneData, loading })} style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Concluídas", data:doneData, loading })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="check-square" size={30} color="#fff" />
             <Text style={styles.cardText}>Concluídas</Text>
@@ -86,20 +86,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   card: {
     marginVertical: 10,
     paddingHorizontal: 100,
     backgroundColor: '#333',
     borderRadius: 15,
-    width: '100%',
     shadowColor: '#fff',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
-    padding: 20
+    padding: 20,
+  },
+  cardContainer: {
+    marginTop:20,
   },
   cardContent: {
     flexDirection: 'row',

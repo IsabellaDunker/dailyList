@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import background1 from '../../../assets/background1.png'
-import { index } from '../../database'
 
 import Header from '../../components/Header/Header';
 import Task from '../../components/Task/Task'
@@ -19,7 +18,7 @@ export default function TaskPage({ route }) {
     <View style={styles.container}>
       <ImageBackground source={backgroundImage} resizeMode="cover" style={styles.image}>
 				<View>
-					<Header title={title} onSelectImage={selectImage} />
+					<Header title={title} onSelectImage={selectImage}/>
 				</View>
 				{ loading ? (<Text></Text>) : (
           data.map((task) => (
@@ -39,6 +38,7 @@ export default function TaskPage({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'black'
   },
 	 image: {
     flex: 1,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   textbt: {
     color: '#6A32E1',
     fontSize: 24,
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     marginStart: 24,
 		marginEnd: 6,
     marginBottom: 3,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 	textDone: {
 		color: '#fff',
 		fontSize: 16,
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     marginStart: 24,
 		marginEnd: 6,
     marginBottom: 3,

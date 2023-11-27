@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, StyleSheet, Text, StatusBar, Pressable} from 'react-native';
+import React, { useState } from 'react'
+import { View, StyleSheet, Text, StatusBar, Pressable } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft'
 import Menu from '../Modal/Menu'
@@ -12,19 +12,24 @@ export default function Header({ title, onSelectImage }) {
   const navigation = useNavigation();
   const date = new Date();
   const formattedDate = formatDate(date);
+  const [tituloColor, setTituloColor] = useState('#6A32E1');
+
+  const onSelectColor = (color) => {
+    setTituloColor(color);
+  };
 
     return (
       <View style={styles.container}>
 				<View style={styles.iconsView}>
 					<Pressable onPress={() => navigation.navigate('ListPage')} style={styles.iconLeft}>
-						<FontAwesomeIcon size={20} style={styles.icon} icon={ faChevronLeft } />
+						<FontAwesomeIcon size={20} style={[styles.icon, { color: tituloColor }]} icon={ faChevronLeft } />
 					</Pressable>
           <View style={styles.iconRight}>
-            <Menu onSelectImage={onSelectImage} />
+            <Menu onSelectImage={onSelectImage} onSelectColor={onSelectColor}/>
           </View>
 				</View>
-        <Text style={styles.mainText} >{title}</Text>
-        <Text style={styles.date} >{formattedDate}</Text>
+        <Text style={[styles.mainText, { color: tituloColor }]} >{title}</Text>
+        <Text style={[styles.date, { color: tituloColor }]} >{formattedDate}</Text>
       </View>
     );
   }
@@ -69,14 +74,14 @@ export default function Header({ title, onSelectImage }) {
     mainText: {
       color: '#6A32E1',
       fontSize: 32,
-      fontFamily: 'Montserrat',
+      fontFamily: 'Opensans',
       marginStart: 24,
       marginBottom: 3,
     },
     date: {
       color: '#6A32E1',
       fontSize: 20,
-      fontFamily: 'Montserrat',
+      fontFamily: 'Opensans',
       marginStart: 24,
     }
   });
