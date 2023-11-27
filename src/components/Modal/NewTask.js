@@ -1,35 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import {TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { postEvent } from '../../database';
 
 const url = "https://s92jwwbki8.execute-api.us-east-2.amazonaws.com/task/task"
 
-export default function NewTask(){
-  const [modalVisible, setModalVisible] = useState(false);
-	const [task, setTask] = React.useState('');
+export default function NewTask({ list_id }){
+	const [task, setTask] = useState('');
 
-  const handleChangeTask = (newTask) => {
-    setTask(newTask);
+  const handleSubmitTask = async () => {
+      try {
+        const responseData = await postEvent('task', JSON.stringify({ name: task, list_id: list_id }));
+        console.log('Resposta POST:', responseData);
+      } catch (error) {
+        console.error('Erro ao realizar POST:', error);
+      }
   };
-
-  const handleSubmitResultado = () => {
-    try {
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-        body: JSON.stringify(task),
-      }).then((response) => response.text())
-        .then((json) => console.log(json));
-    } catch (error) {
-      console.error("Error:", error);
-    }
-
-    setTask('')
-    //location.reload();
-  }
 
   return (
     <KeyboardAwareScrollView
@@ -41,7 +27,8 @@ export default function NewTask(){
           <View style={styles.inputView}>
 						<TextInput
 						style={styles.input}
-						onChangeText={handleChangeTask}
+						onChangeText={() => {setTask(task)}}
+            onSubmitEditing={handleSubmitTask}
 						value={task}
 						placeholder="Nova tarefa  +"
 						placeholderTextColor={'#6A32E1'}/>

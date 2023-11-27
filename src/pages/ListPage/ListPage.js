@@ -47,25 +47,25 @@ export default function ListPage({ navigation }) {
         importantData = data.filter(item => item.list_id === 3),
         doneData = data.filter(item => item.list_id === 4),
       <View  style={styles.cardContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Hoje", data:todayData, loading })} style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { list_id: 1, title:"Hoje", data:todayData, loading })} style={styles.card}>
         <View style={styles.cardContent}>
           <Icon name="calendar" size={30} color="#fff" />
           <Text style={styles.cardText}>Para hoje</Text>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Tarefas", data:allData, loading })} style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { list_id: 2, title:"Tarefas", data:allData, loading })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="list-ul" size={30} color="#fff" />
             <Text style={styles.cardText}>Tarefas</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Importantes", data:importantData, loading })} style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { list_id: 3, title:"Importantes", data:importantData, loading })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="star" size={30} color="#fff" />
             <Text style={styles.cardText}>Importantes</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Concluídas", data:doneData, loading })} style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { list_id: 4, title:"Concluídas", data:doneData, loading, taskIsDone:true })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="check-square" size={30} color="#fff" />
             <Text style={styles.cardText}>Concluídas</Text>

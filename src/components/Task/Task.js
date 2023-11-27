@@ -10,7 +10,7 @@ import moment from 'moment/moment';
 import { putEvent } from '../../database'
 import { useNavigation } from '@react-navigation/native';
 
-export default function Task({ id, name, date }) {
+export default function Task({ id, name, date, taskIsDone }) {
   const navigation = useNavigation();
   const newDate = new Date(date);
   const dataExemploSemHora = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
@@ -77,7 +77,7 @@ export default function Task({ id, name, date }) {
         </Pressable>
         <View style={styles.taskText}>
           <Pressable onPress={() => navigation.navigate('EditTask', { name, repeat, setRepeat })}>
-            <Text style={taskStyle ? styles.maintextDone : styles.maintext}>{name}</Text>
+            <Text style={taskStyle || taskIsDone ? styles.maintextDone : styles.maintext}>{name}</Text>
           </Pressable>
           <View style={styles.rowModal}>
             <Text style={isDateLate ? styles.bottomDateLate : styles.bottomDate}>{formattedDate}</Text>

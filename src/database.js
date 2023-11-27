@@ -23,7 +23,11 @@ export const getEvent = async (endpoint, id) => {
 
 export const postEvent = async(endpoint, data) => {
     try {
-        const response = await axios.post(`${baseUrl}/${endpoint}`, data);
+        const response = await axios.post(`${baseUrl}/${endpoint}`, data, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         return response.data;
     } catch (error) {
         console.error('Erro ao enviar dados para o servidor:', data);

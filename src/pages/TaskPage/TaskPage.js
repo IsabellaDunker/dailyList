@@ -7,7 +7,7 @@ import Task from '../../components/Task/Task'
 import NewTask from '../../components/Modal/NewTask';
 
 export default function TaskPage({ route }) {
-  const { title, data, loading } = route.params;
+  const { list_id, title, data, loading, taskIsDone } = route.params;
   const [backgroundImage, setBackgroundImage] = useState(background1);
 
   const selectImage = (imageUri) => {
@@ -23,12 +23,12 @@ export default function TaskPage({ route }) {
 				{ loading ? (<Text></Text>) : (
           data.map((task) => (
             <View key={task.id}>
-              <Task id={task.id} name={task.name} date={task.date}/>
+              <Task id={task.id} name={task.name} date={task.date} taskIsDone={taskIsDone}/>
             </View>
           ))
         )}
         <View style={styles.footer}>
-          <NewTask/>
+          <NewTask list_id={list_id}/>
         </View>
 			</ImageBackground>
     </View>
