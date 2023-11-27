@@ -12,13 +12,14 @@ import { faRepeat } from '@fortawesome/free-solid-svg-icons/faRepeat'
 import { faCalendar } from '@fortawesome/free-solid-svg-icons/faCalendar'
 import { faImages } from '@fortawesome/free-solid-svg-icons/faImages'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft'
+import { Button } from 'react-native-paper';
 
 import { useNavigation } from '@react-navigation/native';
 import DeleteTask from '../Modal/DeleteTask';
 
 export default function EditTask({ route }) {
   const navigation = useNavigation();
-  const { task } = route.params;
+  const { task, repeat, setRepeat } = route.params;
   const [iconClikedC, setIconClikedC] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTimeVisible, setModalTimeVisible] = useState(false);
@@ -28,6 +29,19 @@ export default function EditTask({ route }) {
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   
+  const buttons = [
+    { id: 'button1', label: 'Diariamente' },
+    { id: 'button2', label: 'Semanalmente' },
+    { id: 'button3', label: 'Mensalmente' },
+  ];
+
+  const [selectedButton, setSelectedButton] = useState(buttons[0].id);
+
+  const handleButtonPress = (buttonId) => {
+    setRepeat(true)
+    console.log(repeat)
+    setSelectedButton(buttonId);
+  };
   const toogleIcon = () => {
     setIconClikedC(!iconClikedC);
   }
@@ -35,9 +49,7 @@ export default function EditTask({ route }) {
     // pega a dateTime do db
     // autoriza notificação no celular
   }
-  const taskRepeat = () => {
-    // edita o repeat do db para 1(true)
-  }
+
   const taskImage = () => {
     pickImage()
     // adiciona imagem no db
@@ -83,7 +95,7 @@ export default function EditTask({ route }) {
   return (
     <View style={styles.editTask}>
       <View style={styles.header}>
-      <Pressable onPress={() => navigation.goBack()}><FontAwesomeIcon size={27} style={styles.iconC} icon={ faChevronLeft} /></Pressable>
+      <Pressable onPress={() => {navigation.goBack(repeat)}}><FontAwesomeIcon size={27} style={styles.iconC} icon={ faChevronLeft} /></Pressable>
       </View>
 
       <View style={styles.centeredContainer}>
@@ -114,13 +126,13 @@ export default function EditTask({ route }) {
               <FontAwesomeIcon size={23} style={styles.icon} icon={ faCalendar } />
               <Text style={styles.buttonEditT}>Data de conclusão</Text></Pressable>
           <Pressable
-           onPress={taskRepeat}
+           onPress={() => {setModalRepeatVisible(true)}}
            style={styles.buttonEdit}>
             <FontAwesomeIcon size={23} style={styles.icon} icon={ faRepeat } />
             <Text style={styles.buttonEditT}>Repetir</Text></Pressable>
           <View style={styles.container}>
             {selectedImage && <Image source={{ uri: selectedImage }} style={styles.image} />}
-            {selectedImage && <Pressable><Text style={styles.delete}>X</Text></Pressable>}
+            {selectedImage && <Pressable onPress={deleteImage}><Text style={styles.delete}>X</Text></Pressable>}
           </View>
             <Pressable
             onPress={taskImage}
@@ -191,10 +203,26 @@ export default function EditTask({ route }) {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-          <Pressable onPress={() => {setModalRepeatVisible(true), setModalVisible(false), setModalTimeVisible(false)}}><Text style={styles.textStyle}>Concluído</Text></Pressable>
-              <Pressable><Text style={styles.textStyle}>Diariamente</Text></Pressable>
-              <Pressable><Text style={styles.textStyle}>Semanalmente</Text></Pressable>
-              <Pressable><Text style={styles.textStyle}>Mensalmente</Text></Pressable>
+          <View style={styles.rowModal}>
+            <Pressable onPress={() => {setModalRepeatVisible(false)}}><Text style={styles.textRemoveStyle}>Remover</Text></Pressable>
+            <Pressable onPress={() => {setModalRepeatVisible(false)}}><Text style={styles.textStyle}>Concluído</Text></Pressable>
+          </View>
+          {buttons.map((button) => (
+            <Button
+              style={{backgroundColor: 'rgba(0, 0, 0, 0)',textAlign: 'left'}}
+              key={button.id}
+              mode="contained"
+              onPress={() => handleButtonPress(button.id)}
+              labelStyle={{
+                fontWeight: 'bold',
+                fontSize: 17,
+                marginTop: 20,
+                color: selectedButton === button.id ? '#fff' : '#434AED',
+              }}
+            >
+              {button.label} 
+            </Button>
+          ))}
           </View>
         </View>
       </Modal>
@@ -308,5 +336,17 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 17,
+    marginTop: 20,
   },
+  selectedRepeat: {
+    color: '#434AED',
+    fontWeight: 'bold',
+    fontSize: 17,
+    marginTop: 20,
+  },
+  textRemoveStyle : {
+    color: 'red',
+    fontWeight: 'bold',
+    fontSize: 17,
+  }
 });

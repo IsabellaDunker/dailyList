@@ -7,7 +7,7 @@ import NewList from '../../components/Modal/NewList';
 export default function ListPage({ navigation }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  let todayData, importantData, doneData;
+  let todayData, importantData, doneData, allData;
 
   useEffect(() =>{
     const fetchData = async () => {
@@ -42,6 +42,7 @@ export default function ListPage({ navigation }) {
   return (
     <View style={styles.container}>
       { loading ? ( <View/> ) : (
+        allData = data.filter(item => item.list_id !== 4),
         todayData = data.filter(item => item.list_id === 1),
         importantData = data.filter(item => item.list_id === 3),
         doneData = data.filter(item => item.list_id === 4),
@@ -52,7 +53,7 @@ export default function ListPage({ navigation }) {
           <Text style={styles.cardText}>Para hoje</Text>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Tarefas", data, loading })} style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Tarefas", data:allData, loading })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="list-ul" size={30} color="#fff" />
             <Text style={styles.cardText}>Tarefas</Text>

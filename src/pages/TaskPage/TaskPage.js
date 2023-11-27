@@ -18,7 +18,7 @@ export default function TaskPage({ route }) {
     <View style={styles.container}>
       <ImageBackground source={backgroundImage} resizeMode="cover" style={styles.image}>
 				<View>
-					<Header title={title} onSelectImage={selectImage} />
+					<Header title={title} onSelectImage={selectImage}/>
 				</View>
 				{ loading ? (<Text></Text>) : (
           data.map((task) => (

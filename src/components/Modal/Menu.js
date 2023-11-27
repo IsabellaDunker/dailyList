@@ -12,11 +12,11 @@ import background2 from '../../../assets/background2.jpg'
 import background3 from '../../../assets/background3.jpg'
 import background4 from '../../../assets/background4.jpg'
 
-export default function Menu({ onSelectImage }){
+export default function Menu({ onSelectImage, onSelectColor }){
   const [modalVisible, setModalVisible] = useState(false);
   const [modalThemeVisible, setModalThemeVisible] = useState(false);
   const [modalColorVisible, setModalColorVisible] = useState(false);
-
+  
   return (
     <View>
       <Modal
@@ -98,10 +98,10 @@ export default function Menu({ onSelectImage }){
             </View>
             {/* <Pressable>Cor</Pressable> */}
             <View style={styles.imageButtons}>
-              <Pressable onPress={() => onSelectImage(background1)}><Image style={styles.image} source={background1} /></Pressable>
-              <Pressable onPress={() => onSelectImage(background2)}><Image style={styles.image} source={background2} /></Pressable>
-              <Pressable onPress={() => onSelectImage(background3)}><Image style={styles.image} source={background3} /></Pressable>
-              <Pressable onPress={() => onSelectImage(background4)}><Image style={styles.image} source={background4} /></Pressable>
+              <Pressable onPress={() => {onSelectImage(background1), onSelectColor('#6A32E1')}}><Image style={styles.image} source={background1} /></Pressable>
+              <Pressable onPress={() => {onSelectImage(background2), onSelectColor('#6A32E1')}}><Image style={styles.image} source={background2} /></Pressable>
+              <Pressable onPress={() => {onSelectImage(background3), onSelectColor('#6A32E1')}}><Image style={styles.image} source={background3} /></Pressable>
+              <Pressable onPress={() => {onSelectImage(background4), onSelectColor('#6A32E1')}}><Image style={styles.image} source={background4} /></Pressable>
               <Pressable><Text style={styles.imagePlus}>+</Text></Pressable>
             </View>
           </View>
@@ -142,12 +142,31 @@ export default function Menu({ onSelectImage }){
             </View>
             {/* <Pressable>Cor</Pressable> */}
             <View style={styles.imageButtons}>
-              <Pressable style={[styles.colors, { backgroundColor: '#6A32E1' }]} onPress={() => {}}></Pressable>
-              <Pressable style={[styles.colors, { backgroundColor: '#C532E9' }]} onPress={() => {}}></Pressable>
-              <Pressable style={[styles.colors, { backgroundColor: '#E9327F' }]} onPress={() => {}}></Pressable>
-              <Pressable style={[styles.colors, { backgroundColor: '#E44D56' }]} onPress={() => {}}></Pressable>
-              <Pressable style={[styles.colors, { backgroundColor: '#04B937' }]} onPress={() => {}}></Pressable>
-              <Pressable style={[styles.colors, { backgroundColor: '#D3CFCF' }]} onPress={() => {}}></Pressable>
+              <Pressable style={[styles.colors, { backgroundColor: '#6A32E1' }]} 
+              onPress={() => {
+                onSelectImage(null),
+                onSelectColor('#6A32E1')
+                }}></Pressable>
+              <Pressable style={[styles.colors, { backgroundColor: '#C532E9' }]} 
+              onPress={() => {
+                onSelectImage(null),
+                onSelectColor('#C532E9')}}></Pressable>
+              <Pressable style={[styles.colors, { backgroundColor: '#E9327F' }]} 
+              onPress={() => {
+                onSelectImage(null),
+                onSelectColor('#E9327F')}}></Pressable>
+              <Pressable style={[styles.colors, { backgroundColor: '#E44D56' }]} 
+              onPress={() => {
+                onSelectImage(null),
+                onSelectColor('#E44D56')}}></Pressable>
+              <Pressable style={[styles.colors, { backgroundColor: '#04B937' }]} 
+              onPress={() => {
+                onSelectImage(null),
+                onSelectColor('#04B937')}}></Pressable>
+              <Pressable style={[styles.colors, { backgroundColor: '#D3CFCF' }]} 
+              onPress={() => {
+                onSelectImage(null),
+                onSelectColor('#D3CFCF')}}></Pressable>
             </View>
           </View>
         </View>

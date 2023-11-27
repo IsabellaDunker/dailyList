@@ -5,7 +5,8 @@ import { faCircle } from '@fortawesome/free-regular-svg-icons/faCircle'
 import { faCircle as faCircleSolid } from '@fortawesome/free-solid-svg-icons/faCircle'
 import { faStar } from '@fortawesome/free-regular-svg-icons/faStar'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons/faStar'
-
+import { faRepeat } from '@fortawesome/free-solid-svg-icons/faRepeat'
+import moment from 'moment/moment';
 import { putEvent } from '../../database'
 import { useNavigation } from '@react-navigation/native';
 
@@ -15,11 +16,12 @@ export default function Task({ id, name, date }) {
   const dataExemploSemHora = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
   const hojeSemHora = new Date();
   hojeSemHora.setHours(0, 0, 0, 0);
-  const formattedDate = formatDate(newDate);
+  const [formattedDate, setDate] = useState(formatDate(newDate))
   const [iconClikedS, setIconClikedS] = useState(false);
   const [iconClikedC, setIconClikedC] = useState(false);
   const iconClickedRef = useRef(false); 
   const [taskStyle, setTaskStyle] = useState(false);
+  let [repeat, setRepeat] = useState(false)
   let isDateLate = dataExemploSemHora.getTime() < hojeSemHora.getTime();
 
   const taskFavorite = () => {
@@ -28,11 +30,26 @@ export default function Task({ id, name, date }) {
     // update no db type = 'favorites'
   }
   const updateData = async () => {
-    try {
-      const responseData = await putEvent('task', JSON.stringify({ id: id, list_id: 4 }));
-      console.log('Resposta PUT:', responseData);
-    } catch (error) {
-      console.error('Erro ao realizar PUT:', error);
+    if(repeat){
+      let dateNew = new Date(newDate);
+      dateNew = moment(dateNew).add(1, 'day').format('YYYY-MM-DDThh:mm:ss');
+      try {
+        const responseData = await putEvent('task', JSON.stringify({ id: id, campo: "date", novoValor: dateNew }));
+        console.log('Resposta PUT:', responseData);
+      } catch (error) {
+        console.error('Erro ao realizar PUT:', error);
+      }
+      setTimeout(() => {
+        setDate(formatDate(new Date(dateNew)))
+        setTaskStyle(!taskStyle), 
+        setIconClikedC(!iconClikedC)}, 500)
+    } else {
+      try {
+        const responseData = await putEvent('task', JSON.stringify({ id: id, campo: "list_id", novoValor: 4 }));
+        console.log('Resposta PUT:', responseData);
+      } catch (error) {
+        console.error('Erro ao realizar PUT:', error);
+      }
     }
   };
   const taskDone = () => {
@@ -59,10 +76,15 @@ export default function Task({ id, name, date }) {
         )}
         </Pressable>
         <View style={styles.taskText}>
-          <Pressable onPress={() => navigation.navigate('EditTask', { name })}>
+          <Pressable onPress={() => navigation.navigate('EditTask', { name, repeat, setRepeat })}>
             <Text style={taskStyle ? styles.maintextDone : styles.maintext}>{name}</Text>
           </Pressable>
-          <Text style={isDateLate ? styles.bottomDateLate : styles.bottomDate}>{formattedDate}</Text>
+          <View style={styles.rowModal}>
+            <Text style={isDateLate ? styles.bottomDateLate : styles.bottomDate}>{formattedDate}</Text>
+            { repeat && (
+              <FontAwesomeIcon size={15} style={{color: 'white'}} icon={ faRepeat } />
+            )}
+          </View>
         </View>
       </View>
       <Pressable onPress={taskFavorite}>
@@ -98,9 +120,7 @@ function formatDate(date) {
     date.getFullYear() === hoje.getFullYear()
   ) {
     return `Hoje`;
-  }
-
-  // Se não for o dia atual, exibir a data normalmente
+  } 
   return `${diaSemana}, ${dia} de ${mes}`;
 }
 
@@ -146,12 +166,17 @@ const styles = StyleSheet.create({
     color: '#D3CFCF',
     marginLeft: 22,
     fontSize: 13,
+    marginRight: 10
+  },
+  rowModal: {
+    flexDirection: 'row',
   },
   bottomDateLate: {
     fontFamily: 'Opensans',
     color: 'red',
     marginLeft: 22,
     fontSize: 13,
+    marginRight: 10
   },
   taskText: {
     flexDirection: 'column',
