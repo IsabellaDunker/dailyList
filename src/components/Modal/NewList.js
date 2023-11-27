@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useFonts } from 'expo-font';
 
 const url = "https://s92jwwbki8.execute-api.us-east-2.amazonaws.com/list/list"
 
 export default function NewList(){
+  useFonts({
+    Opensans: require('../../../assets/fonts/OpenSans-SemiBold.ttf'),
+  });
   const [modalVisible, setModalVisible] = useState(false);
   const [list, setList] = React.useState('');
 
@@ -72,7 +76,7 @@ const styles = StyleSheet.create({
 		width: 200,
 		borderRadius: 6,
     padding: 15,
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
 		fontSize: 24,
     color:'white'
   },
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
 		color: 'white',
-		fontFamily: 'Montserrat',
+		fontFamily: 'Opensans',
 		fontSize: 30,
   },
 	icon: {
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
 	textbt: {
     color: '#6A32E1',
     fontSize: 24,
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     marginStart: 24,
 		marginEnd: 6,
     marginBottom: 3,

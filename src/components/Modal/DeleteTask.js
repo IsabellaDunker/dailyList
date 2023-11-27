@@ -55,20 +55,20 @@ const styles = StyleSheet.create({
   },
   mainText: {
     color: '#fff',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     fontSize: 18,
     marginBottom: 10,
   },
   bt: {
     color: 'red',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     fontSize: 18,
     marginTop: 20,
     textAlign: 'center'
   },
   btC: {
     color: '#434AED',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     fontSize: 18,
     marginTop: 20,
     textAlign: 'center'
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   buttonEditT: {
     color:'#6A6A6A',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     fontSize: 20,
   },
 })

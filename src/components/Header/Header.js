@@ -69,14 +69,14 @@ export default function Header({ title, onSelectImage }) {
     mainText: {
       color: '#6A32E1',
       fontSize: 32,
-      fontFamily: 'Montserrat',
+      fontFamily: 'Opensans',
       marginStart: 24,
       marginBottom: 3,
     },
     date: {
       color: '#6A32E1',
       fontSize: 20,
-      fontFamily: 'Montserrat',
+      fontFamily: 'Opensans',
       marginStart: 24,
     }
   });

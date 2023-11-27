@@ -12,28 +12,27 @@ import { useNavigation } from '@react-navigation/native';
 export default function Task({ id, name, date }) {
   const navigation = useNavigation();
   const newDate = new Date(date);
+  const dataExemploSemHora = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
+  const hojeSemHora = new Date();
+  hojeSemHora.setHours(0, 0, 0, 0);
   const formattedDate = formatDate(newDate);
   const [iconClikedS, setIconClikedS] = useState(false);
   const [iconClikedC, setIconClikedC] = useState(false);
   const iconClickedRef = useRef(false); 
   const [taskStyle, setTaskStyle] = useState(false);
-
-  const [loading, setLoading] = useState(true);
+  let isDateLate = dataExemploSemHora.getTime() < hojeSemHora.getTime();
 
   const taskFavorite = () => {
     setIconClikedS(!iconClikedS);
     // mover task para 'favorites'
     // update no db type = 'favorites'
   }
-
   const updateData = async () => {
     try {
       const responseData = await putEvent('task', JSON.stringify({ id: id, list_id: 4 }));
       console.log('Resposta PUT:', responseData);
-      setLoading(false);
     } catch (error) {
       console.error('Erro ao realizar PUT:', error);
-      setLoading(false);
     }
   };
   const taskDone = () => {
@@ -63,7 +62,7 @@ export default function Task({ id, name, date }) {
           <Pressable onPress={() => navigation.navigate('EditTask', { name })}>
             <Text style={taskStyle ? styles.maintextDone : styles.maintext}>{name}</Text>
           </Pressable>
-          <Text style={styles.bottomDate}>{formattedDate}</Text>
+          <Text style={isDateLate ? styles.bottomDateLate : styles.bottomDate}>{formattedDate}</Text>
         </View>
       </View>
       <Pressable onPress={taskFavorite}>
@@ -87,11 +86,21 @@ function formatDate(date) {
     'Maio', 'Junho', 'Julho', 'Agosto',
     'Set.', 'Out.', 'Nov.', 'Dez.'
   ];
-  
+
+  const hoje = new Date();
   const diaSemana = semana[date.getDay()];
   const dia = date.getDate();
   const mes = meses[date.getMonth()];
-  
+
+  if (
+    date.getDate() === hoje.getDate() &&
+    date.getMonth() === hoje.getMonth() &&
+    date.getFullYear() === hoje.getFullYear()
+  ) {
+    return `Hoje`;
+  }
+
+  // Se não for o dia atual, exibir a data normalmente
   return `${diaSemana}, ${dia} de ${mes}`;
 }
 
@@ -123,18 +132,24 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginLeft: 22,
     fontSize: 20,
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
   },
   maintextDone: {
     color: '#DEDEDE',
     marginLeft: 22,
     fontSize: 20,
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     textDecorationLine: 'line-through',
   },
   bottomDate: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     color: '#D3CFCF',
+    marginLeft: 22,
+    fontSize: 13,
+  },
+  bottomDateLate: {
+    fontFamily: 'Opensans',
+    color: 'red',
     marginLeft: 22,
     fontSize: 13,
   },

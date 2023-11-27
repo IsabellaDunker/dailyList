@@ -5,7 +5,7 @@ import Navigation from './src/components/Navigation/Navigation'
 
 export default function App() {
   useFonts({
-    Montserrat: require('./assets/fonts/OpenSans-SemiBold.ttf'),
+    Opensans: require('./assets/fonts/OpenSans-SemiBold.ttf'),
   });
 
   return (

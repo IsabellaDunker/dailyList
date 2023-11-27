@@ -14,7 +14,7 @@ export const index = async(endpoint) => {
 export const getEvent = async (endpoint, id) => {
     try {
         const response = await axios.get(`${baseUrl}/${endpoint}/${id}`);
-        return response.data;
+        return response;
     } catch (error) {
         console.error('Erro ao buscar dados do servidor por ID:', error);
         throw error;
@@ -33,7 +33,11 @@ export const postEvent = async(endpoint, data) => {
 
 export const putEvent = async (endpoint, data) => {
     try {
-      const response = await axios.put(`${baseUrl}/${endpoint}`, data);
+      const response = await axios.put(`${baseUrl}/${endpoint}`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       return response.data;
     } catch (error) {
       console.error('Erro ao enviar dados para o servidor:', data);

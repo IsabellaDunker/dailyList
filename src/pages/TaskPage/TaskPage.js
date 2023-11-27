@@ -38,6 +38,7 @@ export default function TaskPage({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'black'
   },
 	 image: {
     flex: 1,
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
   textbt: {
     color: '#6A32E1',
     fontSize: 24,
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     marginStart: 24,
 		marginEnd: 6,
     marginBottom: 3,
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
 	textDone: {
 		color: '#fff',
 		fontSize: 16,
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     marginStart: 24,
 		marginEnd: 6,
     marginBottom: 3,

@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
     fontSize: 16,
     color: 'white',
-    fontFamily: 'Montserrat'
+    fontFamily: 'Opensans'
   },
   imageButtons: {
     flexDirection: 'row'
@@ -251,13 +251,13 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'left',
     color: 'white',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     fontSize: 18,
   },
 	textbt: {
     color: '#6A32E1',
     fontSize: 24,
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     marginStart: 24,
 	  marginEnd: 6,
     marginBottom: 3,
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color:'white',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Opensans',
     fontSize: 18,
     marginLeft: 20,
     marginBottom: 10,

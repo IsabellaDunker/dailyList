@@ -45,7 +45,7 @@ export default function ListPage({ navigation }) {
         todayData = data.filter(item => item.list_id === 1),
         importantData = data.filter(item => item.list_id === 3),
         doneData = data.filter(item => item.list_id === 4),
-      <View>
+      <View  style={styles.cardContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { title:"Hoje", data:todayData, loading })} style={styles.card}>
         <View style={styles.cardContent}>
           <Icon name="calendar" size={30} color="#fff" />
@@ -85,20 +85,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   card: {
     marginVertical: 10,
     paddingHorizontal: 100,
     backgroundColor: '#333',
     borderRadius: 15,
-    width: '100%',
     shadowColor: '#fff',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
-    padding: 20
+    padding: 20,
+  },
+  cardContainer: {
+    marginTop:20,
   },
   cardContent: {
     flexDirection: 'row',
