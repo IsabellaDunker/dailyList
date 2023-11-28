@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {Image, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+import {Image, Modal, StyleSheet, Text, Pressable, View, ScrollView } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons/faEllipsis'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons/faPenToSquare'
@@ -16,7 +17,26 @@ export default function Menu({ onSelectImage, onSelectColor }){
   const [modalVisible, setModalVisible] = useState(false);
   const [modalThemeVisible, setModalThemeVisible] = useState(false);
   const [modalColorVisible, setModalColorVisible] = useState(false);
-  
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const taskImage = () => {
+    pickImage()
+    // adiciona imagem no db
+  }
+
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      console.warn('Acesso à galeria foi negado.');
+    } else {
+      const result = await ImagePicker.launchImageLibraryAsync();
+      if (!result.canceled) {
+        const selectedAsset = result.assets[0];
+        setSelectedImage(selectedAsset.uri);
+      }
+    }
+  };
+
   return (
     <View>
       <Modal
@@ -49,10 +69,6 @@ export default function Menu({ onSelectImage, onSelectColor }){
                 <View style={styles.viewiconR}>
                 <FontAwesomeIcon size={18} style={styles.iconRight} icon={ faChevronRight } />
                 </View>
-            </Pressable>
-            <Pressable style={styles.menuItens}>
-                <FontAwesomeIcon size={20} style={styles.icon} icon={ faArrowUpRightFromSquare } />
-                <Text style={styles.modalText}>Compartilhar</Text>
             </Pressable>
           </View>
         </View>
@@ -97,13 +113,19 @@ export default function Menu({ onSelectImage, onSelectColor }){
               </Pressable>
             </View>
             {/* <Pressable>Cor</Pressable> */}
-            <View style={styles.imageButtons}>
+            <ScrollView horizontal style={styles.imageButtons}>
               <Pressable onPress={() => {onSelectImage(background1), onSelectColor('#6A32E1')}}><Image style={styles.image} source={background1} /></Pressable>
               <Pressable onPress={() => {onSelectImage(background2), onSelectColor('#6A32E1')}}><Image style={styles.image} source={background2} /></Pressable>
               <Pressable onPress={() => {onSelectImage(background3), onSelectColor('#6A32E1')}}><Image style={styles.image} source={background3} /></Pressable>
               <Pressable onPress={() => {onSelectImage(background4), onSelectColor('#6A32E1')}}><Image style={styles.image} source={background4} /></Pressable>
-              <Pressable><Text style={styles.imagePlus}>+</Text></Pressable>
-            </View>
+              <View>
+              {selectedImage && 
+              <Pressable 
+                onPress={() => {onSelectImage(selectedImage), console.log(background1), onSelectColor('#6A32E1')}}>
+                <Image source={{ uri: selectedImage }} style={styles.image} /></Pressable>}
+              </View>
+              <Pressable onPress={taskImage}><Text style={styles.imagePlus}>+</Text></Pressable>  
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -141,7 +163,8 @@ export default function Menu({ onSelectImage, onSelectColor }){
               </Pressable>
             </View>
             {/* <Pressable>Cor</Pressable> */}
-            <View style={styles.imageButtons}>
+           <ScrollView horizontal>
+             <View style={styles.imageButtons}>
               <Pressable style={[styles.colors, { backgroundColor: '#6A32E1' }]} 
               onPress={() => {
                 onSelectImage(null),
@@ -168,6 +191,7 @@ export default function Menu({ onSelectImage, onSelectColor }){
                 onSelectImage(null),
                 onSelectColor('#D3CFCF')}}></Pressable>
             </View>
+           </ScrollView>
           </View>
         </View>
       </Modal>

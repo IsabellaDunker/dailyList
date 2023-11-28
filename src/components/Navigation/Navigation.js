@@ -34,19 +34,7 @@ function Navigation() {
           name="ListPage"
           component={ListPage}
           options={{
-            headerTitle: props => <UserName {...props} />,
-            headerLeft: () => (
-              <Icon
-                name="user"
-                size={30}
-                color="#fff"
-                style={styles.icon}
-                onPress={() => {
-                  // Adicione o manipulador onPress do seu ícone aqui
-                }}
-              />
-            ),
-            headerStyle: styles.header,
+            headerShown: false,
           }}
         />
 
