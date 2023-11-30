@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ImageBackground, ScrollView } from 'react-native';
 import background1 from '../../../assets/background1.png'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -10,6 +10,7 @@ export default function TaskPage({ route }) {
   const { list_id, title, data, loading, taskIsDone } = route.params;
   const [backgroundImage, setBackgroundImage] = useState(background1);
   const [tasks, setTasks] = useState(data);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleTaskCreated = (newTask) => {
     // Adiciona a nova tarefa à lista existente
@@ -17,21 +18,26 @@ export default function TaskPage({ route }) {
     console.log(tasks)
   };
 
+  const selectImagePicker = (imageUri) => {
+    setSelectedImage(imageUri);
+    setBackgroundImage(imageUri);
+  };
+
   const selectImage = (imageUri) => {
     setBackgroundImage(imageUri);
+    console.log('Background Image:', backgroundImage);
   };
   
   return (
     <View style={styles.container}>
-      <ImageBackground source={backgroundImage} resizeMode="cover" style={styles.image}>
+      <ImageBackground source={selectedImage ? { uri: selectedImage } : backgroundImage} resizeMode="cover" style={styles.image}>
 				<View>
-					<Header title={title} onSelectImage={selectImage}/>
+					<Header title={title} onSelectImage={selectImage} OnImagePicker={selectImagePicker}/>
 				</View>
         <KeyboardAwareScrollView
           contentContainerStyle={{ flex: 1 }}
           resetScrollToCoords={{ x: 0, y: 0 }}
           scrollEnabled={true}
-          extraScrollHeight={Platform.OS === 'ios' ? 20 : 0} // Ajuste conforme necessário
           enableOnAndroid={true}
           >
 				<ScrollView>

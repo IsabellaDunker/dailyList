@@ -22,11 +22,12 @@ export default function Task({ task, taskIsDone }) {
   const [iconClikedC, setIconClikedC] = useState(false);
   const iconClickedRef = useRef(false); 
   const [taskStyle, setTaskStyle] = useState(false);
+  const [listID, setListID] = useState(task.list_id)
+  let newListId = listID;
   let [repeat, setRepeat] = useState(false)
   let isDateLate = dataExemploSemHora.getTime() < hojeSemHora.getTime();
 
   const handleTaskEdited = (editedTask) => {
-    // Atualiza o estado local com os dados da tarefa editada
     setTaskData((taskData) => ({
       ...taskData,
       name: editedTask,
@@ -37,10 +38,15 @@ export default function Task({ task, taskIsDone }) {
     setDate(formatDate(editedTask))
   };
 
+  const handleRepeat = (editedTask) => {
+    setRepeat(editedTask)
+  };
+
   const taskFavorite = () => {
     setIconClikedS(!iconClikedS);
-    // mover task para 'favorites'
-    // update no db type = 'favorites'
+    newListId=3;
+    setListID(newListId);
+    updateData()
   }
   const updateData = async () => {
     if(repeat){
@@ -58,11 +64,9 @@ export default function Task({ task, taskIsDone }) {
         setIconClikedC(!iconClikedC)}, 500)
     } else {
       try {
-        const responseData = await putEvent('task', JSON.stringify({ id: task.id, campo: "list_id", novoValor: 4 }));
-        setTaskData((taskData) => ({
-          ...taskData,
-          list_id: 4,
-        }));
+        console.log(newListId)
+        setListID(newListId);
+        const responseData = await putEvent('task', JSON.stringify({ id: task.id, campo: "list_id", novoValor: newListId }));
         console.log('Resposta PUT:', responseData);
       } catch (error) {
         console.error('Erro ao realizar PUT:', error);
@@ -77,6 +81,11 @@ export default function Task({ task, taskIsDone }) {
 
   useEffect(() => {
     if (iconClickedRef.current) {
+      if (taskIsDone) {
+        newListId = 2;
+      } else{
+        newListId = 4;
+      }
       updateData();
       iconClickedRef.current = false; // Reseta para o próximo clique
     }
@@ -93,7 +102,20 @@ export default function Task({ task, taskIsDone }) {
         )}
         </Pressable>
         <View style={styles.taskText}>
-          <Pressable onPress={() => navigation.navigate('EditTask', { id:taskData.id, name:taskData.name, repeat, setRepeat, onTaskEdit: handleTaskEdited, onDateEdit: handleDateEdited })}>
+          <Pressable onPress={() => {
+            const serializedData = JSON.stringify({
+              id: taskData.id,
+              name: taskData.name,
+              repeat,
+            });
+          
+            navigation.navigate('EditTask', {
+              serializedData,
+              onRepeat: handleRepeat,
+              onTaskEdit: handleTaskEdited,
+              onDateEdit: handleDateEdited,
+            });
+          }}>
             <Text style={taskStyle || taskIsDone ? styles.maintextDone : styles.maintext}>{taskData.name}</Text>
           </Pressable>
           <View style={styles.rowModal}>
@@ -107,7 +129,7 @@ export default function Task({ task, taskIsDone }) {
         </View>
       </View>
       <Pressable onPress={taskFavorite}>
-        {iconClikedS ? (
+        {iconClikedS || listID==3 ? (
           <FontAwesomeIcon size={23} style={styles.iconS} icon={ faStarSolid } />
         ) : (
           <FontAwesomeIcon size={23} style={styles.iconS} icon={ faStar } />

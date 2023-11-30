@@ -1,57 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import {TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useFonts } from 'expo-font';
-
-const url = ""
+import { postEvent } from '../../database';
 
 export default function NewList(){
-  useFonts({
-    Opensans: require('../../../assets/fonts/OpenSans-SemiBold.ttf'),
-  });
-  const [modalVisible, setModalVisible] = useState(false);
   const [list, setList] = React.useState('');
 
-  const handleChangeList = (newList) => {
-    setList(newList);
-  };
-
-  const handleSubmitResultado = () => {
-    try {
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-        body: JSON.stringify(list),
-      }).then((response) => response.text())
-        .then((json) => console.log(json));
-    } catch (error) {
-      console.error("Error:", error);
-    }
-
-    setList('')
-    //location.reload();
-  }
+//   const handleSubmitList = async () => {
+//     try {
+//       const responseData = await postEvent('task', JSON.stringify({ name: task, list_id: list_id }));
+//       onListCreated({ "name": task, "list_id": list_id });
+//       setList('')
+//       console.log('Resposta POST:', responseData);
+//     } catch (error) {
+//       console.error('Erro ao realizar POST:', error);
+//     }
+// };
 
   return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={{ flex: 1 }}
-      resetScrollToCoords={{ x: 0, y: 0 }}
-      scrollEnabled={true}
-    >
       <View style={styles.centeredView}>
         <View style={styles.inputView}>
 			    <TextInput
 						style={styles.input}
-						onChangeText={handleChangeList}
+						onChangeText={(newList) => setList(newList)}
 						value={list}
 						placeholder="Nova lista  +"
 						placeholderTextColor={'#fff'}/>
           </View>
         </View>
-    </KeyboardAwareScrollView>
   );
 };
 

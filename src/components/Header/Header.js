@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const StatusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 22 : 64;
 
-export default function Header({ title, onSelectImage }) {
+export default function Header({ title, onSelectImage, OnImagePicker }) {
   const navigation = useNavigation();
   const date = new Date();
   const formattedDate = formatDate(date);
@@ -25,7 +25,7 @@ export default function Header({ title, onSelectImage }) {
 						<FontAwesomeIcon size={20} style={[styles.icon, { color: tituloColor }]} icon={ faChevronLeft } />
 					</Pressable>
           <View style={styles.iconRight}>
-            <Menu onSelectImage={onSelectImage} onSelectColor={onSelectColor}/>
+            <Menu onSelectImage={onSelectImage} onSelectColor={onSelectColor} OnImagePicker={OnImagePicker}/>
           </View>
 				</View>
         <Text style={[styles.mainText, { color: tituloColor }]} >{title}</Text>

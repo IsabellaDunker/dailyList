@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { index } from '../../database'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import NewList from '../../components/Modal/NewList';
 
 export default function ListPage({ navigation }) {
@@ -9,73 +10,72 @@ export default function ListPage({ navigation }) {
   const [loading, setLoading] = useState(true);
   let todayData, importantData, doneData, allData;
 
-  useEffect(() =>{
-    const fetchData = async () => {
-      try {
-        const data = await index('task');
-        setData(data);
-        setLoading(false);
-      } catch (error) {
-        console.log(error)
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+  const fetchData = useCallback(async () => {
+    try {
+      const newData = await index('task');
+      setData(newData);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   }, []);
 
-  // useEffect(() =>{
-  //   const fetchData = async () => {
-  //     try {
-  //       const data = await index('list');
-  //       setData(data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.log(error)
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() =>{
+    fetchData();
+  }, [fetchData]);
 
-  //   fetchData();
-  // }, [])
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchData();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
+      <KeyboardAwareScrollView
+      contentContainerStyle={{ flex: 1 }}
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      scrollEnabled={true}
+      enableOnAndroid={true}>
       { loading ? ( <View/> ) : (
         allData = data.filter(item => item.list_id !== 4),
         todayData = data.filter(item => item.list_id === 1),
         importantData = data.filter(item => item.list_id === 3),
         doneData = data.filter(item => item.list_id === 4),
       <View  style={styles.cardContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { list_id: 1, title:"Hoje", data:todayData, loading })} style={styles.card}>
+        <Pressable onPress={() => navigation.navigate('Tarefas', { list_id: 1, title:"Hoje", data:todayData, loading })} style={styles.card}>
         <View style={styles.cardContent}>
           <Icon name="calendar" size={30} color="#fff" />
           <Text style={styles.cardText}>Para hoje</Text>
         </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { list_id: 2, title:"Tarefas", data:allData, loading })} style={styles.card}>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('Tarefas', { list_id: 2, title:"Tarefas", data:allData, loading })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="list-ul" size={30} color="#fff" />
             <Text style={styles.cardText}>Tarefas</Text>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { list_id: 3, title:"Importantes", data:importantData, loading })} style={styles.card}>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('Tarefas', { list_id: 3, title:"Importantes", data:importantData, loading })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="star" size={30} color="#fff" />
             <Text style={styles.cardText}>Importantes</Text>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Tarefas', { list_id: 4, title:"Concluídas", data:doneData, loading, taskIsDone:true })} style={styles.card}>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('Tarefas', { list_id: 4, title:"Concluídas", data:doneData, loading, taskIsDone:true })} style={styles.card}>
           <View style={styles.cardContent}>
             <Icon name="check-square" size={30} color="#fff" />
             <Text style={styles.cardText}>Concluídas</Text>
           </View>
-        </TouchableOpacity>
+        </Pressable>
       </View>  
       )}
       <View style={styles.footer}>
         <NewList/>
       </View>
+      </KeyboardAwareScrollView>
     </View>
 
   );

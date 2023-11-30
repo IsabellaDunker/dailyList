@@ -16,7 +16,11 @@ import DeleteTask from '../Modal/DeleteTask';
 
 export default function EditTask({ route }) {
   const navigation = useNavigation();
-  const { id, name, repeat, setRepeat, onTaskEdit, onDateEdit } = route.params;
+  const deserializedData = JSON.parse(route.params.serializedData);
+  const id = deserializedData.id;
+  const name = deserializedData.name;
+  const repeat = deserializedData.repeat;
+  const { onRepeat, onTaskEdit, onDateEdit } = route.params;
   const [iconClikedC, setIconClikedC] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTimeVisible, setModalTimeVisible] = useState(false);
@@ -36,7 +40,7 @@ export default function EditTask({ route }) {
   const [selectedButton, setSelectedButton] = useState(buttons[0].id);
 
   const handleButtonPress = (buttonId) => {
-    setRepeat(true)
+    onRepeat(true)
     console.log(repeat)
     setSelectedButton(buttonId);
   };

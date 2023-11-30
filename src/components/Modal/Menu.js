@@ -13,7 +13,7 @@ import background2 from '../../../assets/background2.jpg'
 import background3 from '../../../assets/background3.jpg'
 import background4 from '../../../assets/background4.jpg'
 
-export default function Menu({ onSelectImage, onSelectColor }){
+export default function Menu({ onSelectImage, onSelectColor, OnImagePicker }){
   const [modalVisible, setModalVisible] = useState(false);
   const [modalThemeVisible, setModalThemeVisible] = useState(false);
   const [modalColorVisible, setModalColorVisible] = useState(false);
@@ -121,7 +121,7 @@ export default function Menu({ onSelectImage, onSelectColor }){
               <View>
               {selectedImage && 
               <Pressable 
-                onPress={() => {onSelectImage(selectedImage), console.log(background1), onSelectColor('#6A32E1')}}>
+                onPress={() => {OnImagePicker(selectedImage), onSelectColor('#6A32E1')}}>
                 <Image source={{ uri: selectedImage }} style={styles.image} /></Pressable>}
               </View>
               <Pressable onPress={taskImage}><Text style={styles.imagePlus}>+</Text></Pressable>  
