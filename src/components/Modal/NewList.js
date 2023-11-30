@@ -3,7 +3,7 @@ import {TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useFonts } from 'expo-font';
 
-const url = "https://s92jwwbki8.execute-api.us-east-2.amazonaws.com/list/list"
+const url = ""
 
 export default function NewList(){
   useFonts({

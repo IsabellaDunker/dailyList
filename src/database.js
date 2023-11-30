@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = "https://s92jwwbki8.execute-api.us-east-2.amazonaws.com/task"
+const baseUrl = ""
 export const index = async(endpoint) => {
     try {
           const response = await axios.get(`${baseUrl}/${endpoint}`);
