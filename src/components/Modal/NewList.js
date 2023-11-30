@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
 		width: 200,
 		borderRadius: 6,
     padding: 15,
-    fontFamily: 'Opensans',
 		fontSize: 24,
     color:'white'
   },
@@ -84,7 +83,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
 		color: 'white',
-		fontFamily: 'Opensans',
 		fontSize: 30,
   },
 	icon: {
@@ -93,7 +91,6 @@ const styles = StyleSheet.create({
 	textbt: {
     color: '#6A32E1',
     fontSize: 24,
-    fontFamily: 'Opensans',
     marginStart: 24,
 		marginEnd: 6,
     marginBottom: 3,

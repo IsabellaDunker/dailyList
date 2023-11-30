@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   cardContainer: {
-    marginTop:20,
+    marginTop: 60,
   },
   cardContent: {
     flexDirection: 'row',

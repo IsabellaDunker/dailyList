@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import {TextInput, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React, { useState } from 'react';
+import {TextInput, StyleSheet, Text, Pressable, View} from 'react-native';
 import { postEvent } from '../../database';
 
-const url = "https://s92jwwbki8.execute-api.us-east-2.amazonaws.com/task/task"
-
-export default function NewTask({ list_id }){
+export default function NewTask({ list_id, onTaskCreated }){
 	const [task, setTask] = useState('');
 
   const handleSubmitTask = async () => {
       try {
         const responseData = await postEvent('task', JSON.stringify({ name: task, list_id: list_id }));
+        onTaskCreated({ "name": task, "list_id": list_id });
+        setTask('')
         console.log('Resposta POST:', responseData);
       } catch (error) {
         console.error('Erro ao realizar POST:', error);
@@ -18,31 +17,21 @@ export default function NewTask({ list_id }){
   };
 
   return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={{ flex: 1 }}
-      resetScrollToCoords={{ x: 0, y: 0 }}
-      scrollEnabled={true}
-    >
-      <View style={styles.centeredView}>
-          <View style={styles.inputView}>
-						<TextInput
-						style={styles.input}
-						onChangeText={() => {setTask(task)}}
-            onSubmitEditing={handleSubmitTask}
-						value={task}
-						placeholder="Nova tarefa  +"
-						placeholderTextColor={'#6A32E1'}/>
-          </View>
-        </View>
-    </KeyboardAwareScrollView>
+    <View style={styles.centeredView}>
+      <View style={styles.inputView}>
+				<TextInput
+					style={styles.input}
+					onChangeText={(text) => {setTask(text)}}
+          onSubmitEditing={handleSubmitTask}
+					value={task}
+					placeholder="Nova tarefa  +"
+					placeholderTextColor={'#6A32E1'}/>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
   inputView: {
     height: 62,
     backgroundColor: '#363636',

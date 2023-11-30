@@ -10,9 +10,10 @@ import moment from 'moment/moment';
 import { putEvent } from '../../database'
 import { useNavigation } from '@react-navigation/native';
 
-export default function Task({ id, name, date, taskIsDone }) {
+export default function Task({ task, taskIsDone }) {
+  const [taskData, setTaskData] = useState(task);
   const navigation = useNavigation();
-  const newDate = new Date(date);
+  const newDate = new Date(taskData.date);
   const dataExemploSemHora = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate());
   const hojeSemHora = new Date();
   hojeSemHora.setHours(0, 0, 0, 0);
@@ -24,6 +25,18 @@ export default function Task({ id, name, date, taskIsDone }) {
   let [repeat, setRepeat] = useState(false)
   let isDateLate = dataExemploSemHora.getTime() < hojeSemHora.getTime();
 
+  const handleTaskEdited = (editedTask) => {
+    // Atualiza o estado local com os dados da tarefa editada
+    setTaskData((taskData) => ({
+      ...taskData,
+      name: editedTask,
+    }));
+  };
+
+  const handleDateEdited = (editedTask) => {
+    setDate(formatDate(editedTask))
+  };
+
   const taskFavorite = () => {
     setIconClikedS(!iconClikedS);
     // mover task para 'favorites'
@@ -34,7 +47,7 @@ export default function Task({ id, name, date, taskIsDone }) {
       let dateNew = new Date(newDate);
       dateNew = moment(dateNew).add(1, 'day').format('YYYY-MM-DDThh:mm:ss');
       try {
-        const responseData = await putEvent('task', JSON.stringify({ id: id, campo: "date", novoValor: dateNew }));
+        const responseData = await putEvent('task', JSON.stringify({ id: task.id, campo: "date", novoValor: dateNew }));
         console.log('Resposta PUT:', responseData);
       } catch (error) {
         console.error('Erro ao realizar PUT:', error);
@@ -45,7 +58,11 @@ export default function Task({ id, name, date, taskIsDone }) {
         setIconClikedC(!iconClikedC)}, 500)
     } else {
       try {
-        const responseData = await putEvent('task', JSON.stringify({ id: id, campo: "list_id", novoValor: 4 }));
+        const responseData = await putEvent('task', JSON.stringify({ id: task.id, campo: "list_id", novoValor: 4 }));
+        setTaskData((taskData) => ({
+          ...taskData,
+          list_id: 4,
+        }));
         console.log('Resposta PUT:', responseData);
       } catch (error) {
         console.error('Erro ao realizar PUT:', error);
@@ -76,11 +93,13 @@ export default function Task({ id, name, date, taskIsDone }) {
         )}
         </Pressable>
         <View style={styles.taskText}>
-          <Pressable onPress={() => navigation.navigate('EditTask', { name, repeat, setRepeat })}>
-            <Text style={taskStyle || taskIsDone ? styles.maintextDone : styles.maintext}>{name}</Text>
+          <Pressable onPress={() => navigation.navigate('EditTask', { id:taskData.id, name:taskData.name, repeat, setRepeat, onTaskEdit: handleTaskEdited, onDateEdit: handleDateEdited })}>
+            <Text style={taskStyle || taskIsDone ? styles.maintextDone : styles.maintext}>{taskData.name}</Text>
           </Pressable>
           <View style={styles.rowModal}>
-            <Text style={isDateLate ? styles.bottomDateLate : styles.bottomDate}>{formattedDate}</Text>
+            {task.date ? (
+              <Text style={isDateLate ? styles.bottomDateLate : styles.bottomDate}>{formattedDate}</Text>
+            ): (<Text style={isDateLate ? styles.bottomDateLate : styles.bottomDate}></Text>)}
             { repeat && (
               <FontAwesomeIcon size={15} style={{color: 'white'}} icon={ faRepeat } />
             )}

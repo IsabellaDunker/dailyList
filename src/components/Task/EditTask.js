@@ -2,11 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Pressable, TextInput, Modal, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { DateTimePicker as DatePiker } from 'react-native-modal-datetime-picker';
-
+import { putEvent } from '../../database';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faCircle } from '@fortawesome/free-regular-svg-icons/faCircle'
-import { faCircle as faCircleSolid } from '@fortawesome/free-solid-svg-icons/faCircle'
 import { faBell } from '@fortawesome/free-regular-svg-icons/faBell'
 import { faRepeat } from '@fortawesome/free-solid-svg-icons/faRepeat'
 import { faCalendar } from '@fortawesome/free-solid-svg-icons/faCalendar'
@@ -19,7 +16,7 @@ import DeleteTask from '../Modal/DeleteTask';
 
 export default function EditTask({ route }) {
   const navigation = useNavigation();
-  const { task, repeat, setRepeat } = route.params;
+  const { id, name, repeat, setRepeat, onTaskEdit, onDateEdit } = route.params;
   const [iconClikedC, setIconClikedC] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTimeVisible, setModalTimeVisible] = useState(false);
@@ -28,6 +25,7 @@ export default function EditTask({ route }) {
   const [showPicker, setShowPicker] = useState(false);
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [task, setTask] = useState(name)
   
   const buttons = [
     { id: 'button1', label: 'Diariamente' },
@@ -71,8 +69,28 @@ export default function EditTask({ route }) {
 
   const handleConfirm = () => {
     setSelectedDate(selectedDate);
-    console.log(selectedDate);
+    handleSubmitDate()
     setModalVisible(false)
+  };
+
+  const handleSubmitDate = async () => {
+    try {
+      const responseData = await putEvent('task', JSON.stringify({ id: id, campo: "date", novoValor: selectedDate }));
+      console.log('Resposta PUT:', responseData);
+      onDateEdit(selectedDate)
+    } catch (error) {
+      console.error('Erro ao realizar PUT:', error);
+    }
+  };
+
+  const handleSubmitTask = async () => {
+    try {
+      const responseData = await putEvent('task', JSON.stringify({ id: id, campo: "name", novoValor: task }));
+      console.log('Resposta PUT:', responseData);
+      onTaskEdit(task)
+    } catch (error) {
+      console.error('Erro ao realizar PUT:', error);
+    }
   };
 
   const pickImage = async () => {
@@ -100,14 +118,12 @@ export default function EditTask({ route }) {
 
       <View style={styles.centeredContainer}>
       <View style={styles.row}>
-        <Pressable onPress={toogleIcon}>
-          {iconClikedC ? (
-            <FontAwesomeIcon size={27} style={styles.iconC} icon={ faCircleSolid } />
-          ) : (
-            <FontAwesomeIcon size={27} style={styles.iconC} icon={ faCircle } />
-          )}
-        </Pressable>
-        <Text style={styles.maintext}>{task}</Text>
+        <TextInput
+						style={styles.input}
+            onChangeText={(text) => {setTask(text)}}
+            onSubmitEditing={handleSubmitTask}
+						value={task}
+						placeholderTextColor={'#fff'}/>
       </View>
 
       <View>
@@ -336,7 +352,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 17,
-    marginTop: 20,
   },
   selectedRepeat: {
     color: '#434AED',

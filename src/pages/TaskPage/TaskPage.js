@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, ScrollView } from 'react-native';
 import background1 from '../../../assets/background1.png'
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Header from '../../components/Header/Header';
 import Task from '../../components/Task/Task'
 import NewTask from '../../components/Modal/NewTask';
@@ -9,6 +9,13 @@ import NewTask from '../../components/Modal/NewTask';
 export default function TaskPage({ route }) {
   const { list_id, title, data, loading, taskIsDone } = route.params;
   const [backgroundImage, setBackgroundImage] = useState(background1);
+  const [tasks, setTasks] = useState(data);
+
+  const handleTaskCreated = (newTask) => {
+    // Adiciona a nova tarefa à lista existente
+    setTasks((taskData) => ([...taskData, newTask]));
+    console.log(tasks)
+  };
 
   const selectImage = (imageUri) => {
     setBackgroundImage(imageUri);
@@ -20,16 +27,24 @@ export default function TaskPage({ route }) {
 				<View>
 					<Header title={title} onSelectImage={selectImage}/>
 				</View>
-				{ loading ? (<Text></Text>) : (
-          data.map((task) => (
-            <View key={task.id}>
-              <Task id={task.id} name={task.name} date={task.date} taskIsDone={taskIsDone}/>
-            </View>
-          ))
-        )}
-        <View style={styles.footer}>
-          <NewTask list_id={list_id}/>
-        </View>
+        <KeyboardAwareScrollView
+          contentContainerStyle={{ flex: 1 }}
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          scrollEnabled={true}
+          extraScrollHeight={Platform.OS === 'ios' ? 20 : 0} // Ajuste conforme necessário
+          enableOnAndroid={true}
+          >
+				<ScrollView>
+          { loading ? (<Text></Text>) : (
+            tasks.map((task) => (
+              <View key={task.id}>
+                <Task task={task} taskIsDone={taskIsDone}/>
+              </View>
+            ))
+          )}
+        </ScrollView>
+          <NewTask list_id={list_id} onTaskCreated={handleTaskCreated}/>
+          </KeyboardAwareScrollView>
 			</ImageBackground>
     </View>
   );
@@ -43,10 +58,6 @@ const styles = StyleSheet.create({
 	 image: {
     flex: 1,
     justifyContent: 'center',
-  },
-  footer: {
-    flex: 1,
-    justifyContent: 'flex-end',
   },
   bt: {
     height: 62,
